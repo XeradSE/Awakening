@@ -11,6 +11,9 @@ int main() {
 
   std::cout << "Hello World!" << std::endl;
 
+  Game game(screenWidth, screenHeight);
+  game.drawMap();
+
   while (!WindowShouldClose()) {
     BeginDrawing();
     ClearBackground(BLACK);
