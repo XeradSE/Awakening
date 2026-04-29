@@ -1,4 +1,5 @@
 #include "../include/Game.hpp"
+#include "raylib.h"
 #include <iostream>
 
 int main() {
@@ -12,12 +13,12 @@ int main() {
   std::cout << "Hello World!" << std::endl;
 
   Game game(screenWidth, screenHeight);
-  game.drawMap();
 
   while (!WindowShouldClose()) {
-    BeginDrawing();
-    ClearBackground(BLACK);
+    game.update();
 
+    BeginDrawing();
+    game.drawMap();
     EndDrawing();
   }
 

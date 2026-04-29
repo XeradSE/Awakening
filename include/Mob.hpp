@@ -4,5 +4,10 @@
 
 class Mob : public Entity {
 public:
-  double speed = 100.0;
+  double max_hp;
+  double current_hp = max_hp;
+
+  double movement_speed = 100.0;
+
+  double atk;
 };
