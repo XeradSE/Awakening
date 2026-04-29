@@ -30,4 +30,6 @@ public:
   void loadMap();
   void drawMap();
   void update();
+
+  Menu &getMenu() { return menu; };
 };

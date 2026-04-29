@@ -1,6 +1,5 @@
 #include "../include/Game.hpp"
 #include "raylib.h"
-#include <iostream>
 
 int main() {
 
@@ -10,15 +9,33 @@ int main() {
   InitWindow(screenWidth, screenHeight, "Awakening");
   SetTargetFPS(120);
 
-  std::cout << "Hello World!" << std::endl;
-
   Game game(screenWidth, screenHeight);
 
   while (!WindowShouldClose()) {
-    game.update();
+    SetExitKey(KEY_NULL);
 
     BeginDrawing();
-    game.drawMap();
+
+    if (MAIN_MENU == true) {
+      game.getMenu().drawMainMenu();
+      if (game.getMenu().handleInput()) {
+        MAIN_MENU = false;
+      }
+    } else if (GAME_OVER == true) {
+      game.getMenu().drawGameOver();
+      if (game.getMenu().handleInput()) {
+        GAME_OVER = false;
+      }
+    } else if (PAUSE_MENU == true) {
+      game.getMenu().drawPauseMenu();
+      if (game.getMenu().handleInput()) {
+        PAUSE_MENU = false;
+      }
+    } else {
+      game.update();
+      game.drawMap();
+    }
+
     EndDrawing();
   }
 

@@ -88,6 +88,8 @@ void Game::update() {
     player.pos_y += player.movement_speed * deltatime;
   } else if (IsKeyDown(KEY_UP)) {
     player.pos_y -= player.movement_speed * deltatime;
+  } else if (IsKeyPressed(KEY_ESCAPE)) {
+    PAUSE_MENU = true;
   }
 
   player.pos_x = std::clamp(player.pos_x, 0.0, (double)(MAP_WIDTH - 1));
