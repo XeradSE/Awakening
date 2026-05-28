@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>
+#include <string>
 
 Game::Game(int w, int h)
     : nb_cell_width(w / CELL_SIZE), nb_cell_height(h / CELL_SIZE),
@@ -14,6 +15,11 @@ Game::Game(int w, int h)
       std::clamp(camera_x, 0.0, (double)(MAP_WIDTH * CELL_SIZE - screen_width));
   camera_y = std::clamp(camera_y, 0.0,
                         (double)(MAP_HEIGHT * CELL_SIZE - screen_height));
+
+  Enemy test_enemy;
+  test_enemy.pos_x = 10.0;
+  test_enemy.pos_y = 10.0;
+  enemies.push_back(test_enemy);
 }
 
 void Game::loadMap() {
@@ -74,7 +80,13 @@ void Game::drawMap() {
   int player_screen_y = (int)(player.pos_y * CELL_SIZE - camera_y);
   DrawRectangle(player_screen_x, player_screen_y, CELL_SIZE, CELL_SIZE, RED);
 
+  for (auto &enemy : enemies) {
+    enemy.drawEnemy(camera_x, camera_y);
+  }
+
   DrawFPS(10, 10);
+  DrawText(std::to_string(player.pos_x).c_str(), 200, 10, 10, GREEN);
+  DrawText(std::to_string(player.pos_y).c_str(), 300, 10, 10, GREEN);
 }
 
 void Game::update() {
@@ -102,4 +114,8 @@ void Game::update() {
       std::clamp(camera_x, 0.0, (double)(MAP_WIDTH * CELL_SIZE - screen_width));
   camera_y = std::clamp(camera_y, 0.0,
                         (double)(MAP_HEIGHT * CELL_SIZE - screen_height));
+
+  for (auto &enemy : enemies) {
+    enemy.updatePosition(player.pos_x, player.pos_y, deltatime);
+  }
 };

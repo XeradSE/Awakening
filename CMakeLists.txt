@@ -22,6 +22,7 @@ add_executable(Awakening ./src/main.cpp
 ./src/Game.cpp
 ./src/Menu.cpp
 ./src/Player.cpp
+./src/Enemy.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)

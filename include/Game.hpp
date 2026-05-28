@@ -2,13 +2,13 @@
 
 #include "Menu.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
+#include "Constants.hpp"
 #include <random>
+#include <vector>
 
 enum SPRITE { GROUND = '#' };
 
-static const int CELL_SIZE = 10;
-static const int MAP_WIDTH = 600;
-static const int MAP_HEIGHT = 600;
 static std::vector<std::string> map_cache;
 static bool map_loaded = false;
 
@@ -20,6 +20,7 @@ class Game {
   Menu menu;
   std::mt19937 rng{std::random_device{}()};
   Player player;
+  std::vector<Enemy> enemies;
   double camera_x = 0.0;
   double camera_y = 0.0;
   int nb_enemies_killed = 0;

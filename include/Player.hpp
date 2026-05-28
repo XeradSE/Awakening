@@ -22,6 +22,9 @@ class Player : public Mob {
   double mana_acquisition = 1.0;
   double item_pickup_range = 1.0;
 
+  double required_exp = 100.0;
+  double current_exp = 0.0;
+
 public:
   Player(int map_h, int map_w);
 };
