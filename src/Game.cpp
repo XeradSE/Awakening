@@ -1,7 +1,9 @@
 #include "../include/Game.hpp"
+#include "../include/Constants.hpp"
 #include "raylib.h"
 #include <algorithm>
 #include <fstream>
+#include <random>
 #include <stdexcept>
 #include <string>
 
@@ -117,5 +119,19 @@ void Game::update() {
 
   for (auto &enemy : enemies) {
     enemy.updatePosition(player.pos_x, player.pos_y, deltatime);
+  }
+
+  double spawn_rate = 0.16;
+  timer += GetFrameTime();
+
+  if (timer >= spawn_rate) {
+    timer = 0;
+    std::uniform_int_distribution<> dist_x(0, MAP_WIDTH - 1);
+    std::uniform_int_distribution<> dist_y(0, MAP_HEIGHT - 1);
+
+    Enemy test_enemy;
+    test_enemy.pos_x = dist_x(rng);
+    test_enemy.pos_y = dist_y(rng);
+    enemies.push_back(test_enemy);
   }
 };

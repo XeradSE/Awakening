@@ -1,9 +1,8 @@
 #pragma once
 
+#include "Enemy.hpp"
 #include "Menu.hpp"
 #include "Player.hpp"
-#include "Enemy.hpp"
-#include "Constants.hpp"
 #include <random>
 #include <vector>
 
@@ -24,6 +23,7 @@ class Game {
   double camera_x = 0.0;
   double camera_y = 0.0;
   int nb_enemies_killed = 0;
+  double timer = 0.0;
 
 public:
   Game(int w, int h);
