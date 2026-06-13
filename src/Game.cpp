@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include <algorithm>
 #include <fstream>
+#include <math.h>
 #include <random>
 #include <stdexcept>
 #include <string>
@@ -11,16 +12,16 @@ Game::Game(int w, int h)
     : nb_cell_width(w / CELL_SIZE), nb_cell_height(h / CELL_SIZE),
       screen_width(w), screen_height(h), player(MAP_HEIGHT, MAP_WIDTH) {
 
-  camera_x = player.pos_x * CELL_SIZE - (double)screen_width / 2;
-  camera_y = player.pos_y * CELL_SIZE - (double)screen_height / 2;
+  camera_x = player.pos_x * CELL_SIZE - (float)screen_width / 2;
+  camera_y = player.pos_y * CELL_SIZE - (float)screen_height / 2;
   camera_x =
-      std::clamp(camera_x, 0.0, (double)(MAP_WIDTH * CELL_SIZE - screen_width));
-  camera_y = std::clamp(camera_y, 0.0,
-                        (double)(MAP_HEIGHT * CELL_SIZE - screen_height));
+      std::clamp(camera_x, 0.0f, (float)(MAP_WIDTH * CELL_SIZE - screen_width));
+  camera_y = std::clamp(camera_y, 0.0f,
+                        (float)(MAP_HEIGHT * CELL_SIZE - screen_height));
 
   Enemy test_enemy;
-  test_enemy.pos_x = 10.0;
-  test_enemy.pos_y = 10.0;
+  test_enemy.pos_x = 10.0f;
+  test_enemy.pos_y = 10.0f;
   enemies.push_back(test_enemy);
 }
 
@@ -92,36 +93,62 @@ void Game::drawMap() {
 }
 
 void Game::update() {
+
   float deltatime = GetFrameTime();
 
-  if (IsKeyDown(KEY_RIGHT)) {
-    player.pos_x += player.movement_speed * deltatime;
-  } else if (IsKeyDown(KEY_LEFT)) {
-    player.pos_x -= player.movement_speed * deltatime;
-  } else if (IsKeyDown(KEY_DOWN)) {
-    player.pos_y += player.movement_speed * deltatime;
-  } else if (IsKeyDown(KEY_UP)) {
-    player.pos_y -= player.movement_speed * deltatime;
-  } else if (IsKeyPressed(KEY_ESCAPE)) {
+  // 1. On stocke UNIQUEMENT la direction voulue (valeurs entre -1 et 1)
+  float dir_x = 0.0f;
+  float dir_y = 0.0f;
+
+  if (IsKeyDown(KEY_RIGHT))
+    dir_x += 1.0f;
+  if (IsKeyDown(KEY_LEFT))
+    dir_x -= 1.0f;
+  if (IsKeyDown(KEY_DOWN))
+    dir_y += 1.0f;
+  if (IsKeyDown(KEY_UP))
+    dir_y -= 1.0f;
+
+  // 2. On calcule la magnitude (la longueur du vecteur de direction)
+  float magnitude = sqrt(dir_x * dir_x + dir_y * dir_y);
+
+  // 3. On normalise SEULEMENT si le joueur bouge (pour éviter la division par
+  // zéro)
+  if (magnitude > 0.0f) {
+    dir_x = dir_x / magnitude;
+    dir_y = dir_y / magnitude;
+  }
+
+  // 4. On applique la vitesse et le temps au résultat normalisé
+  player.pos_x += dir_x * player.movement_speed * deltatime;
+  player.pos_y += dir_y * player.movement_speed * deltatime;
+
+  /*
+   * #include <raymath.h>. Il contient des fonctions toutes faites comme
+   * Vector2Normalize() qui font exactement ces étapes sous le capot si tu
+   * utilises le type Vector2 pour ta position et ta direction
+   */
+
+  if (IsKeyPressed(KEY_ESCAPE)) {
     PAUSE_MENU = true;
   }
 
-  player.pos_x = std::clamp(player.pos_x, 0.0, (double)(MAP_WIDTH - 1));
-  player.pos_y = std::clamp(player.pos_y, 0.0, (double)(MAP_HEIGHT - 1));
+  player.pos_x = std::clamp(player.pos_x, 0.0f, (float)(MAP_WIDTH - 1));
+  player.pos_y = std::clamp(player.pos_y, 0.0f, (float)(MAP_HEIGHT - 1));
 
-  camera_x = player.pos_x * CELL_SIZE - (double)screen_width / 2;
-  camera_y = player.pos_y * CELL_SIZE - (double)screen_height / 2;
+  camera_x = player.pos_x * CELL_SIZE - (float)screen_width / 2;
+  camera_y = player.pos_y * CELL_SIZE - (float)screen_height / 2;
 
   camera_x =
-      std::clamp(camera_x, 0.0, (double)(MAP_WIDTH * CELL_SIZE - screen_width));
-  camera_y = std::clamp(camera_y, 0.0,
-                        (double)(MAP_HEIGHT * CELL_SIZE - screen_height));
+      std::clamp(camera_x, 0.0f, (float)(MAP_WIDTH * CELL_SIZE - screen_width));
+  camera_y = std::clamp(camera_y, 0.0f,
+                        (float)(MAP_HEIGHT * CELL_SIZE - screen_height));
 
   for (auto &enemy : enemies) {
     enemy.updatePosition(player.pos_x, player.pos_y, deltatime);
   }
 
-  double spawn_rate = 0.16;
+  float spawn_rate = 0.16;
   timer += GetFrameTime();
 
   if (timer >= spawn_rate) {

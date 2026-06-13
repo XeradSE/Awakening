@@ -20,10 +20,10 @@ class Game {
   std::mt19937 rng{std::random_device{}()};
   Player player;
   std::vector<Enemy> enemies;
-  double camera_x = 0.0;
-  double camera_y = 0.0;
+  float camera_x = 0.0f;
+  float camera_y = 0.0f;
   int nb_enemies_killed = 0;
-  double timer = 0.0;
+  float timer = 0.0f;
 
 public:
   Game(int w, int h);

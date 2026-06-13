@@ -3,11 +3,11 @@
 #include "Mob.hpp"
 
 class Enemy : public Mob {
-  double enemy_map_hp_reduction = 1.0;
+  float enemy_map_hp_reduction = 1.0f;
 
 public:
-  Enemy() { movement_speed = 50.0; };
+  Enemy() { movement_speed = 50.0f; };
 
-  void updatePosition(double player_x, double player_y, float delta_time);
-  void drawEnemy(double camera_x, double camera_y);
+  void updatePosition(float player_x, float player_y, float delta_time);
+  void drawEnemy(float camera_x, float camera_y);
 };

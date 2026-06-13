@@ -7,7 +7,7 @@ int main() {
   const int screenHeight = 720;
 
   InitWindow(screenWidth, screenHeight, "Awakening");
-  SetTargetFPS(120);
+  SetTargetFPS(100);
 
   Game game(screenWidth, screenHeight);
 

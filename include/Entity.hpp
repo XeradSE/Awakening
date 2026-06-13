@@ -3,6 +3,6 @@
 class Entity {
 
 public:
-  double pos_x = 0.0;
-  double pos_y = 0.0;
+  float pos_x = 0.0f;
+  float pos_y = 0.0f;
 };

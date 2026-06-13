@@ -3,27 +3,27 @@
 #include "Mob.hpp"
 
 class Player : public Mob {
-  double hp_regen_per_s = 0.0;
-  double life_orb_hp_recovery = 50;
+  float hp_regen_per_s = 0.0f;
+  float life_orb_hp_recovery = 50.0f;
 
-  double damage_reduction = 1.0;
-  double evasion_chance = 0.0;
+  float damage_reduction = 1.0f;
+  float evasion_chance = 0.0f;
 
-  double amplify_atk = 1.0;
-  double all_magic_damage = 1.0;
+  float amplify_atk = 1.0f;
+  float all_magic_damage = 1.0f;
 
-  double all_magic_size = 1.0;
-  double all_magic_duration = 1.0;
-  double all_magic_cooldown_reduction = 1.0;
+  float all_magic_size = 1.0f;
+  float all_magic_duration = 1.0f;
+  float all_magic_cooldown_reduction = 1.0f;
 
-  double critical_rate = 5.0;
-  double critical_damage = 50;
+  float critical_rate = 5.0f;
+  float critical_damage = 50.0f;
 
-  double mana_acquisition = 1.0;
-  double item_pickup_range = 1.0;
+  float mana_acquisition = 1.0f;
+  float item_pickup_range = 1.0f;
 
-  double required_exp = 100.0;
-  double current_exp = 0.0;
+  float required_exp = 100.0f;
+  float current_exp = 0.0f;
 
 public:
   Player(int map_h, int map_w);
