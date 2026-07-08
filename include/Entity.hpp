@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include "./Component.hpp"
@@ -10,68 +8,14 @@
 class Entity {
   std::vector<std::unique_ptr<Component>> components;
 
-
-
-
 public:
-
   template <typename T, typename... TArgs> T *AddComponent(TArgs &&...args) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    auto comp = std::make_unique<T>(
-        std::forward<TArgs>(args)...);
-
-
-
-
-
-
+    auto comp = std::make_unique<T>(std::forward<TArgs>(args)...);
     comp->owner = this;
-
-
-
-
-
-
-
-
     T *ptr = comp.get();
-
-
-
-
     components.push_back(std::move(comp));
-
-
-
-
-
-
-
-
     return ptr;
-
-
-
-
-
   }
-
 
   template <typename T> T *GetComponent() {
     for (auto &comp : components) {
@@ -82,13 +26,6 @@ public:
     return nullptr;
   }
 
-  void Update(float dt) {
-    for (auto &comp : components)
-      comp->Update(dt);
-  }
-
-  void Draw() {
-    for (auto &comp : components)
-      comp->Draw();
-  }
+  void Update(float dt);
+  void Draw();
 };

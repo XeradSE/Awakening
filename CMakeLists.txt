@@ -18,7 +18,15 @@ if (NOT raylib_FOUND)
   FetchContent_MakeAvailable(raylib)
 endif ()
 
-add_executable(Awakening ./src/main.cpp
+add_executable(Awakening
+  ./src/main.cpp
+  ./src/Menu.cpp
+  ./src/BoundsComponent.cpp
+  ./src/ChaseComponent.cpp
+  ./src/Entity.cpp
+  ./src/PlayerInputComponent.cpp
+  ./src/RectangleRenderComponent.cpp
+  ./src/TransformComponent.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
