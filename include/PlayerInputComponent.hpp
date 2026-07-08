@@ -15,7 +15,7 @@ public:
   void Update(float dt) override {
     TransformComponent *transform = owner->GetComponent<TransformComponent>();
     if (transform == nullptr)
-      return; // sécurité
+      return;
 
     float dir_x = 0.0f;
     float dir_y = 0.0f;
@@ -35,7 +35,7 @@ public:
       dir_y = dir_y / magnitude;
     }
 
-    // On applique le mouvement directement sur le Transform
+
     transform->x += dir_x * speed * dt;
     transform->y += dir_y * speed * dt;
   };
