@@ -11,17 +11,16 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     devShells.${system}.default = pkgs.mkShell {
-      packages = [
-        (pkgs.python3.withPackages (ps: with ps; [
-          clang
-          cmake
-          gnumake      # Requis par CMake pour générer les Makefiles
-          raylib
-          pkg-config
-          wayland
-          libGL
-          libxkbcommon
-        ]))
+      packages = with pkgs; [
+        clang
+        clang-tools
+        cmake
+        gnumake
+        raylib
+        pkg-config
+        wayland
+        libGL
+        libxkbcommon
       ];
 
       shellHook = ''
